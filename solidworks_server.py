@@ -27,6 +27,7 @@ async def draw_cylinder() -> bool:
     if modelDoc is None:
         raise RuntimeError("ドキュメント作成に失敗しました。テンプレートパスを確認してください。")
 
+    # おまじない
     await asyncio.sleep(5)
 
     # FeatureManager 取得
@@ -45,9 +46,9 @@ async def draw_cylinder() -> bool:
         )
     if not success:
         # 英語版と日本語版とで表記が異なるらしいです by.ChatGPT-4o
-        success = modelDoc.Extension.SelectByID2("上面", "PLANE", 0, 0, 0, False, 0, empty_dispatch, 0)
+        success = modelDoc.Extension.SelectByID2("Front Plane", "PLANE", 0, 0, 0, False, 0, empty_dispatch, 0)
         if not success:
-            raise RuntimeError("Top Planeあるいは上面の選択に失敗しました。名前が違うか、存在しない可能性があります。")
+            raise RuntimeError("平面（Front Plane）の選択に失敗しました")
 
     # スケッチ開始
     modelDoc.SketchManager.InsertSketch(True)
