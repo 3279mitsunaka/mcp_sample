@@ -85,7 +85,7 @@ class Host:
                     if _tool_name not in self.all_tools_map:
                         self.all_tools_map[_tool_name] = _src_server_name
                 tmp.append(server_name)
-        print(f"[systm] Server connected! -> {tmp}")
+        print(f"\n[systm] Server connected! -> {tmp}")
 
     def _get_llm_tool_definitions(self) -> List[Dict[str, Any]]:
         # LLMの関数呼び出しに適したツール定義のリストを生成する。
@@ -196,6 +196,7 @@ class Host:
         for _client in self.clients_list.values():
             if _client.exit_stack:
                 await _client.exit_stack.aclose()
+                await asyncio.sleep(1)
                 print(f"Client: {_client.server_name} のセッションを閉じました。")
         print("--- 全てのセッションクローズ完了 ---")
 
@@ -205,6 +206,7 @@ async def main():
 
     # ここに追加したサーバーを追加します
     await host.add_server("Tools", "tools_server.py")
+    await host.add_server("SolidWorks_Tools", "solidworks_server.py")
 
     # LLM設定はここ
     llm = ChatOllama(
